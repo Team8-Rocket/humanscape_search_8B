@@ -2,17 +2,29 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { RecoilRoot } from 'recoil'
 import reportWebVitals from './reportWebVitals'
+import Routes from './routes'
+
 import 'styles/index.scss'
 
-import Routes from './routes'
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnMount: false } },
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
+      <RecoilRoot>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </RecoilRoot>
+    </QueryClientProvider>
   </React.StrictMode>
 )
 
