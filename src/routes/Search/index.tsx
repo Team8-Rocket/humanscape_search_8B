@@ -1,10 +1,14 @@
 import { ChangeEvent, useState } from 'react'
+import { useQueryDebounce } from 'hooks'
 
-import { SearchIcon } from 'assets'
+import SuggestSearch from './SuggestSearch'
+
 import styles from './Search.module.scss'
+import { SearchIcon } from 'assets'
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
+  const debouncedSearchText = useQueryDebounce(searchText)
 
   const handleChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value)
@@ -30,7 +34,7 @@ const Search = () => {
         </button>
       </div>
       <ul className={styles.dropdown}>
-        <span>추천 검색어</span>
+        <SuggestSearch query={debouncedSearchText} />
       </ul>
     </div>
   )
