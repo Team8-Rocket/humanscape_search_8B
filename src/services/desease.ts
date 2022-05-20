@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = '/B551182/diseaseInfoService/getDissNameCodeList'
+const BASE_URL =
+  'https://cors-anywhere.herokuapp.com/http://apis.data.go.kr/B551182/diseaseInfoService/getDissNameCodeList'
 
 export const getDiseaseApi = (query: string) =>
   axios.get(BASE_URL, {
