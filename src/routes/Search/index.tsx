@@ -1,10 +1,28 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 
 import { SearchIcon } from 'assets'
 import styles from './Search.module.scss'
+import useQueryDebounce from 'hooks/useQueryDebounce'
+import { useQuery } from 'react-query'
+import { getDiseaseApi } from 'services/desease'
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const { data, isFetching, isError } = useQuery(
+    ['DiseasesName', useQueryDebounce(searchText)],
+    () => getDiseaseApi(`${searchText}`),
+    {
+      cacheTime: 1000 * 60 * 10,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      useErrorBoundary: false,
+      // placeholderData: [],
+      suspense: true,
+      enabled: searchText.length >= 1,
+    }
+  )
 
   const handleChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value)
