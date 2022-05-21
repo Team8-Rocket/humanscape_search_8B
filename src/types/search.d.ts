@@ -15,7 +15,7 @@ export interface IBody {
 }
 
 export interface IItems {
-  item: IItem | ?IItem[]
+  item: IItem | IItem[]
 }
 
 export interface IItem {

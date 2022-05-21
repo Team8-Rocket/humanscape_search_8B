@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect, memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import styles from './Header.module.scss'
@@ -30,4 +30,4 @@ const Header = () => {
   )
 }
 
-export default React.memo(Header)
+export default memo(Header)
