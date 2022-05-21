@@ -33,9 +33,11 @@ const Search = () => {
           검색
         </button>
       </div>
-      <ul className={styles.dropdown}>
-        <SuggestSearch query={debouncedSearchText} />
-      </ul>
+      {debouncedSearchText && (
+        <ul className={styles.dropdown}>
+          <SuggestSearch query={debouncedSearchText} />
+        </ul>
+      )}
     </div>
   )
 }
