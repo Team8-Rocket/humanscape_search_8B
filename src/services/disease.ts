@@ -14,6 +14,7 @@ const getDiseaseOptions = {
 }
 
 export const getDiseaseApi = async (query: string) => {
+  // eslint-disable-next-line no-console
   console.log(`query요청: ${query}`)
   const response = await axios.get<ISearchApiRes>(BASE_URL, {
     params: {
