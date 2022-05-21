@@ -35,7 +35,7 @@ const Search = () => {
     if (e.key === 'ArrowDown') {
       dispatch(setItemIndex(index + 1))
       currentValue = keyIndexRef.current?.childNodes[index + 2]?.textContent
-      if (keyIndexRef.current?.childElementCount === index + 1) dispatch(setItemIndex(0))
+      // if (keyIndexRef.current?.childElementCount === index + 1) dispatch(setItemIndex(0))
     }
     if (e.key === 'ArrowUp') {
       dispatch(setItemIndex(index - 1))
