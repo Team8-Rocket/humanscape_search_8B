@@ -1,4 +1,4 @@
-import { KeyboardEvent, ChangeEvent, Suspense, useRef, useState } from 'react'
+import { KeyboardEvent, ChangeEvent, Suspense, useRef, useState, FormEvent } from 'react'
 import { useMount } from 'react-use'
 import { ErrorBoundary } from 'react-error-boundary'
 
@@ -14,21 +14,27 @@ const Search = () => {
   const [searchText, setSearchText] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
   const debouncedSearchText = useQueryDebounce(searchText)
-  const handleChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.currentTarget.value)
-  }
-
-  useMount(() => {
-    inputRef.current?.focus()
-  })
 
   const keyIndexRef = useRef<HTMLUListElement>(null)
   const index = useAppSelector(getItemIndex)
   const dispatch = useAppDispatch()
 
+  useMount(() => {
+    inputRef.current?.focus()
+  })
+
+  const handleInputSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
+
+  const handleSearchTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.currentTarget.value)
+  }
+
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     let currentValue
     const isCorrectKey = e.key === 'ArrowDown' || 'ArrowUp' || 'Escape'
+    if (e.nativeEvent.isComposing) return
     if (!isCorrectKey) return
     if (!debouncedSearchText || e.key === 'Escape') dispatch(setItemIndex(-1))
 
@@ -56,17 +62,19 @@ const Search = () => {
 
       <div className={styles.searchInputWarrper}>
         <SearchIcon />
-        <input
-          ref={inputRef}
-          className={styles.searchInput}
-          value={searchText}
-          onChange={handleChangeSearchText}
-          onKeyDown={handleKeyDown}
-          placeholder='질환명을 입력해 주세요.'
-        />
-        <button type='button' className={styles.searchButton}>
-          검색
-        </button>
+        <form className={styles.searchForm} onSubmit={handleInputSubmit}>
+          <input
+            ref={inputRef}
+            className={styles.searchInput}
+            value={searchText}
+            onChange={handleSearchTextChange}
+            onKeyDown={handleKeyDown}
+            placeholder='질환명을 입력해 주세요.'
+          />
+          <button type='button' className={styles.searchButton}>
+            검색
+          </button>
+        </form>
       </div>
       {debouncedSearchText.trim().length > 0 && (
         <ul className={styles.dropdown} ref={keyIndexRef}>
