@@ -1,6 +1,6 @@
-import { ChangeEvent, Suspense, useRef, useState, useEffect } from 'react'
+import { ChangeEvent, Suspense, useRef, useState } from 'react'
 import { useQueryDebounce } from 'hooks'
-
+import { useMount } from 'react-use'
 import SuggestSearch from './SuggestSearch'
 import Header from './Header/Header'
 
@@ -16,9 +16,9 @@ const Search = () => {
     setSearchText(e.currentTarget.value)
   }
 
-  useEffect(() => {
+  useMount(() => {
     inputRef.current?.focus()
-  }, [])
+  })
 
   return (
     <div className={styles.searchContainer}>
