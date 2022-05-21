@@ -13,21 +13,21 @@ const getDiseaseOptions = {
   _type: 'json',
 }
 
+let count = 0
 export const getDiseaseApi = async (query: string) => {
+  count += 1
   // eslint-disable-next-line no-console
-  console.log(`query요청: ${query}`)
+  console.log(`query요청: ${query}, api 요청 횟수: ${count}`)
 
-  axios
-    .get<ISearchApiRes>(BASE_URL, {
-      params: {
-        searchText: query,
-        ...getDiseaseOptions,
-      },
-    })
-    .then((response) => {
-      const data = response.data.response.body.items.item
-      if (data === undefined) return []
-      if (!Array.isArray(data)) return [data]
-      return data
-    })
+  const response = await axios.get<ISearchApiRes>(BASE_URL, {
+    params: {
+      searchText: query,
+      ...getDiseaseOptions,
+    },
+  })
+  const data = response.data.response.body.items.item
+  if (data === undefined) return []
+  if (!Array.isArray(data)) return [data]
+
+  return data
 }

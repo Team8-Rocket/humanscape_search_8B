@@ -14,15 +14,19 @@ const SuggestSearch = ({ query }: { query: string }) => {
   const index = useAppSelector(getItemIndex)
   const searchUrl = 'https://clinicaltrialskorea.com/studies?condition='
 
-  const { data }: { data: IItem[] | undefined } = useQuery(['diseaseList', query], () => getDiseaseApi(query), {
-    refetchOnWindowFocus: false,
-    enabled: !!query,
-    staleTime: 6 * 10 * 1000,
-    suspense: true,
-    retryOnMount: false,
-  })
-  // if (query.length && data.length === 0) return <span>{query} 값이 없습니다.</span>
-  if (!data) return <span>{query} 검색 결과가 없습니다.</span>
+  const { data = [], isLoading }: { data: IItem[] | undefined; isLoading?: boolean } = useQuery(
+    ['diseaseList', query],
+    () => getDiseaseApi(query),
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!query,
+      staleTime: 6 * 10 * 1000,
+      suspense: true,
+      retryOnMount: false,
+    }
+  )
+  if (!isLoading && data.length === 0) return <span>{query} 검색 결과가 없습니다.</span>
+
   return (
     <>
       <span>추천 검색어</span>
