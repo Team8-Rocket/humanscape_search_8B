@@ -9,6 +9,7 @@ import { getItemIndex } from 'store/searchIndex'
 
 import styles from '../Search.module.scss'
 import { SearchIcon } from 'assets'
+import HighlightText from './HighlightText'
 
 const SuggestSearch = ({ query }: { query: string }) => {
   const index = useAppSelector(getItemIndex)
@@ -33,7 +34,9 @@ const SuggestSearch = ({ query }: { query: string }) => {
       {data?.map((item: IItem, i: number) => (
         <li key={item.sickCd} className={cx({ [styles.isFocus]: index === i })}>
           <SearchIcon />
-          <a href={searchUrl + item.sickNm}>{item.sickNm}</a>
+          <a href={searchUrl + item.sickNm}>
+            <HighlightText query={query} text={item.sickNm} />
+          </a>
         </li>
       ))}
     </>
