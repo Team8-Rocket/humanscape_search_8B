@@ -1,8 +1,15 @@
 import { useEffect } from 'react'
 
-export const useObserver = ({ target, onIntersect, root = null, rootMargin = '0px', threshold = 1.0 }: any) => {
+export const useObserver = ({
+  target,
+  onIntersect,
+  hasNextPage,
+  root = null,
+  rootMargin = '0px',
+  threshold = 1.0,
+}: any) => {
   useEffect(() => {
-    let observer: any
+    let observer: IntersectionObserver
 
     if (target && target.current) {
       observer = new IntersectionObserver(onIntersect, { root, rootMargin, threshold })
@@ -10,5 +17,5 @@ export const useObserver = ({ target, onIntersect, root = null, rootMargin = '0p
     }
 
     return () => observer && observer.disconnect()
-  }, [target, onIntersect, root, rootMargin, threshold])
+  }, [target, onIntersect, hasNextPage, root, rootMargin, threshold])
 }
