@@ -78,8 +78,16 @@
 
   li {
     display: flex;
-    padding: 10px 0;
+    padding: 12px;
     margin-top: 8px;
+    cursor: pointer;
+  }
+
+  li:hover,
+  li:active,
+  .isFocus {
+    background-color: rgba(0, 0, 0, 6%);
+    border-radius: 10px;
   }
 
   svg {

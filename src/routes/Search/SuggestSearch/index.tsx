@@ -1,12 +1,19 @@
 import { memo } from 'react'
 import { useQuery } from 'react-query'
+import cx from 'classnames'
 
+import { useAppSelector } from 'hooks'
 import { getDiseaseApi } from 'services/disease'
 import { IItem } from 'types/search'
+import { getItemIndex } from 'store/searchIndex'
 
+import styles from '../Search.module.scss'
 import { SearchIcon } from 'assets'
 
 const SuggestSearch = ({ query }: { query: string }) => {
+  const index = useAppSelector(getItemIndex)
+  console.log(getItemIndex)
+
   const { data }: { data: IItem[] | undefined } = useQuery(['diseaseList', query], () => getDiseaseApi(query), {
     refetchOnWindowFocus: false,
     enabled: !!query,
@@ -19,8 +26,8 @@ const SuggestSearch = ({ query }: { query: string }) => {
   return (
     <>
       <span>추천 검색어</span>
-      {data?.map((item: IItem) => (
-        <li key={item.sickCd}>
+      {data?.map((item: IItem, i: number) => (
+        <li key={item.sickCd} className={cx({ [styles.isFocus]: index === i })}>
           <SearchIcon />
           {item.sickNm}
         </li>

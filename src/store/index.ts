@@ -1,7 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
+import searchIndex from './searchIndex'
+import themeSlice from './themeSlice'
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    darkMode: themeSlice,
+    searchIndex,
+  },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 })

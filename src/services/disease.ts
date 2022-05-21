@@ -24,8 +24,7 @@ export const getDiseaseApi = async (query: string) => {
   })
 
   const data = response.data.response.body.items.item
-  if (!Array.isArray(data)) {
-    return [data]
-  }
+  if (data === undefined) return []
+  if (!Array.isArray(data)) return [data]
   return data
 }
