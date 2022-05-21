@@ -16,16 +16,18 @@ const getDiseaseOptions = {
 export const getDiseaseApi = async (query: string) => {
   // eslint-disable-next-line no-console
   console.log(`query요청: ${query}`)
-  const response = await axios.get<ISearchApiRes>(BASE_URL, {
-    params: {
-      searchText: query,
-      ...getDiseaseOptions,
-    },
-  })
 
-  const data = response.data.response.body.items.item
-  if (!Array.isArray(data)) {
-    return [data]
-  }
-  return data
+  axios
+    .get<ISearchApiRes>(BASE_URL, {
+      params: {
+        searchText: query,
+        ...getDiseaseOptions,
+      },
+    })
+    .then((response) => {
+      const data = response.data.response.body.items.item
+      if (data === undefined) return []
+      if (!Array.isArray(data)) return [data]
+      return data
+    })
 }
