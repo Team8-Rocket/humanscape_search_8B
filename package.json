@@ -2,6 +2,7 @@
   "name": "humanscape",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://apis.data.go.kr",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
