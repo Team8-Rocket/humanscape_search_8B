@@ -1,17 +1,59 @@
 import { ChangeEvent, useState } from 'react'
 import { useQueryDebounce } from 'hooks'
+import searchKeyWords from 'assets/json/searchKeyWords.json'
 
 import SuggestSearch from './SuggestSearch'
 
 import styles from './Search.module.scss'
 import { SearchIcon } from 'assets'
+import { IItem } from 'types/search'
+// import { result } from 'lodash'
+
+const reESC = /[\\^$.*+?()[\]{}|]/g
+const reChar = /[가-힣]/
+const reConsonant = /[ㄱ-ㅎ]/
+const offset = 44032
+
+const con2syl = Object.fromEntries(
+  'ㄱ:가,ㄲ:까,ㄴ:나,ㄷ:다,ㄸ:따,ㄹ:라,ㅁ:마,ㅂ:바,ㅃ:빠,ㅅ:사'.split(',').map((v) => {
+    const entry: (string | number)[] = v.split(':')
+    if (typeof entry[1] === 'string') {
+      entry[1] = entry[1].charCodeAt(0)
+    }
+    return entry
+  })
+)
+
+const chPattern = (ch: string) => {
+  let r
+  if (reConsonant.test(ch)) {
+    const begin = con2syl[ch] || (ch.charCodeAt(0) - 12613) * 588 + con2syl['ㅅ']
+    const end = begin + 587
+    r = `[${ch}\\u${begin.toString(16)}-\\u${end.toString(16)}]`
+  } else if (reChar.test(ch)) {
+    const chCode = ch.charCodeAt(0) - offset
+    if (chCode % 28 > 0) return ch
+    const begin = Math.floor(chCode / 28) * 28 + offset
+    const end = begin + 27
+    r = `[\\u${begin.toString(16)}-\\u${end.toString(16)}]`
+  } else r = ch.replace(reESC, '\\$&')
+  return `(${r})`
+}
+const funzzFc = (v: string) => {
+  const pattern = new RegExp(v.split('').map(chPattern).join('.*?'), 'i')
+  return pattern
+}
+const { items } = searchKeyWords.response.body
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
+  const [fuzzyArr, setFuzzyArr] = useState([{ sickCd: '0', sickNm: '추천 검색어 없음' }])
   const debouncedSearchText = useQueryDebounce(searchText)
 
   const handleChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value)
+    const resultArr = items.item.filter((item) => funzzFc(e.currentTarget.value).test(item.sickNm))
+    setFuzzyArr(resultArr)
   }
 
   return (
@@ -33,9 +75,14 @@ const Search = () => {
           검색
         </button>
       </div>
-      <ul className={styles.dropdown}>
-        <SuggestSearch query={debouncedSearchText} />
+      <ul className={styles.fuzzyDown}>
+        {fuzzyArr.map((arr: IItem) => (
+          <li key={arr.sickCd}>{arr.sickNm}</li>
+        ))}
       </ul>
+      {/* <ul className={styles.dropdown}>
+        <SuggestSearch query={debouncedSearchText} />
+      </ul> */}
     </div>
   )
 }

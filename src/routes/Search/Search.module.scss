@@ -48,6 +48,18 @@
   display: none;
 }
 
+.fuzzyDown {
+  height: 500px;
+  padding: 20px;
+  margin-top: 20px;
+  overflow: scroll;
+  background-color: #ffffff;
+
+  li {
+    height: 10%;
+  }
+}
+
 .dropdown {
   padding: 24px;
   margin-top: 10px;
