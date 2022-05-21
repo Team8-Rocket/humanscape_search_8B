@@ -5,7 +5,21 @@
   width: 100vw;
   height: 100vh;
   padding: 50px 20px;
+  margin-top: 50px;
   background-color: #d1e8fd;
+  transition: background-color 0.3s;
+
+  :root[theme='dark'] & {
+    background-color: #252627;
+
+    .description {
+      color: colors.$WHITE;
+    }
+
+    .searchButton {
+      background-color: #616161;
+    }
+  }
 }
 
 .description {
