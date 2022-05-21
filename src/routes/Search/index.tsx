@@ -41,7 +41,6 @@ const Search = () => {
     if (e.key === 'ArrowDown') {
       dispatch(setItemIndex(index + 1))
       currentValue = keyIndexRef.current?.childNodes[index + 2]?.textContent
-      // if (keyIndexRef.current?.childElementCount === index + 1) dispatch(setItemIndex(0))
     }
     if (e.key === 'ArrowUp') {
       dispatch(setItemIndex(index - 1))
@@ -49,7 +48,7 @@ const Search = () => {
       if (index < 0) dispatch(setItemIndex(-1))
     }
     if (currentValue === undefined || currentValue === null) currentValue = searchText
-    setSearchText(currentValue)
+    keyIndexRef.current?.scrollTo({ top: index * 47, behavior: 'smooth' })
   }
 
   return (

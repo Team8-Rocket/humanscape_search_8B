@@ -15,6 +15,7 @@ const SuggestSearch = ({ query }: { query: string }) => {
   const index = useAppSelector(getItemIndex)
   const searchUrl = 'https://clinicaltrialskorea.com/studies?condition='
   const pageEndPointRef = useRef<HTMLDivElement>(null)
+  let prePageNumber: number = 0
 
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery(
     ['diseaseList', query],
@@ -45,16 +46,19 @@ const SuggestSearch = ({ query }: { query: string }) => {
   return (
     <>
       <span>추천 검색어</span>
-      {data?.pages.map((page) =>
-        page.items.map((item: IItem, i: number) => (
-          <li key={item.sickCd} className={cx({ [styles.isFocus]: index === i })}>
-            <SearchIcon />
-            <a href={searchUrl + item.sickNm}>
-              <HighlightText query={query} text={item.sickNm} />
-            </a>
-          </li>
-        ))
-      )}
+      {data?.pages.map((page) => {
+        prePageNumber = page.currentPage - 1
+        return page.items.map((item: IItem, i: number) => {
+          return (
+            <li key={item.sickCd} className={cx({ [styles.isFocus]: index === i + prePageNumber * 10 })}>
+              <SearchIcon />
+              <a href={searchUrl + item.sickNm}>
+                <HighlightText query={query} text={item.sickNm} />
+              </a>
+            </li>
+          )
+        })
+      })}
       {hasNextPage && <div ref={pageEndPointRef} />}
       {isFetchingNextPage && <p>계속 불러오는 중 입니다.</p>}
     </>
