@@ -1,10 +1,7 @@
 import axios from 'axios'
 import { ISearchApiRes } from 'types/search'
 
-// const BASE_URL = '/B551182/diseaseInfoService/getDissNameCodeList'
-const BASE_URL =
-  'https://cors-anywhere.herokuapp.com/http://apis.data.go.kr/B551182/diseaseInfoService/getDissNameCodeList'
-
+const BASE_URL = '/B551182/diseaseInfoService/getDissNameCodeList'
 const getDiseaseOptions = {
   ServiceKey: process.env.REACT_APP_DISEASE_API_KEY,
   pageNo: 1,
