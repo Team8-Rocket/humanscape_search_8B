@@ -1,35 +1,28 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, Suspense, useRef, useState, useEffect } from 'react'
+import { useQueryDebounce } from 'hooks'
 
-import { SearchIcon } from 'assets'
+import SuggestSearch from './SuggestSearch'
+import Header from './Header/Header'
+
 import styles from './Search.module.scss'
-
-import useQueryDebounce from 'hooks/useQueryDebounce'
-import { getDiseaseApi } from 'services/desease'
-import { useQuery } from 'react-query'
+import { SearchIcon } from 'assets'
+import { ErrorBoundary } from 'react-error-boundary'
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
-  const debounceText = useQueryDebounce(searchText)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  const { data, isFetching, isError } = useQuery(['DiseasesName', debounceText], () => getDiseaseApi(debounceText), {
-    cacheTime: 1000 * 60 * 10,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    useErrorBoundary: false,
-    // placeholderData: [],
-    suspense: true,
-    enabled: searchText.length >= 1,
-  })
-
+  const debouncedSearchText = useQueryDebounce(searchText)
   const handleChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value)
   }
+
   useEffect(() => {
-    console.log(data)
-  }, [data])
+    inputRef.current?.focus()
+  }, [])
+
   return (
     <div className={styles.searchContainer}>
+      <Header />
       <p className={styles.description}>
         국내 모든 임상시험 검색하고
         <br /> 온라인으로 참여하기
@@ -38,6 +31,7 @@ const Search = () => {
       <div className={styles.searchInputWarrper}>
         <SearchIcon />
         <input
+          ref={inputRef}
           className={styles.searchInput}
           value={searchText}
           onChange={handleChangeSearchText}
@@ -47,6 +41,13 @@ const Search = () => {
           검색
         </button>
       </div>
+      <ul className={styles.dropdown}>
+        <ErrorBoundary fallback={<div>server error</div>}>
+          <Suspense fallback={<div>loading...</div>}>
+            <SuggestSearch query={debouncedSearchText} />
+          </Suspense>
+        </ErrorBoundary>
+      </ul>
     </div>
   )
 }

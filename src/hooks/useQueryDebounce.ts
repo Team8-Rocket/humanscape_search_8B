@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'hooks'
 
-const useQueryDebounce = (value: string, delay = 600) => {
+export const useQueryDebounce = (value: string, delay = 600) => {
   const [debounceValue, setDebounceValue] = useState(value)
 
   useEffect(() => {
-    const handler = setTimeout(() => {
+    const handler: NodeJS.Timeout = setTimeout(() => {
       setDebounceValue(value)
     }, delay)
 
@@ -15,5 +15,3 @@ const useQueryDebounce = (value: string, delay = 600) => {
 
   return debounceValue
 }
-
-export default useQueryDebounce

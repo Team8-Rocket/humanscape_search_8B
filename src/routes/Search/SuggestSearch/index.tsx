@@ -1,11 +1,32 @@
-import styles from './SuggestSearch.module.scss'
+import React from 'react'
+import { useQuery } from 'react-query'
 
-const SuggestSearch = () => {
+import { getDiseaseApi } from 'services/disease'
+import { IItem } from 'types/search'
+
+import { SearchIcon } from 'assets'
+
+const SuggestSearch = ({ query }: { query: string }) => {
+  const { data }: IItem[] | any = useQuery(['diseaseList', query], () => getDiseaseApi(query), {
+    refetchOnWindowFocus: false,
+    enabled: !!query,
+    staleTime: 6 * 10 * 1000,
+    suspense: true,
+    retryOnMount: false,
+  })
+
+  if (query.length && data[0] === undefined) return <li>{query} 값이 없습니다.</li>
   return (
-    <ul className={styles.dropdown}>
+    <>
       <span>추천 검색어</span>
-    </ul>
+      {data?.map((item: IItem) => (
+        <li key={item.sickCd}>
+          <SearchIcon />
+          {item.sickNm}
+        </li>
+      ))}
+    </>
   )
 }
 
-export default SuggestSearch
+export default React.memo(SuggestSearch)
