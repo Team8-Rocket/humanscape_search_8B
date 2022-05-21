@@ -5,6 +5,7 @@ import { getDiseaseApi } from 'services/disease'
 import { IItem } from 'types/search'
 
 import { SearchIcon } from 'assets'
+import HighlightText from './HighlightText'
 
 const SuggestSearch = ({ query }: { query: string }) => {
   const { data }: { data: IItem[] | undefined } = useQuery(['diseaseList', query], () => getDiseaseApi(query), {
@@ -22,7 +23,7 @@ const SuggestSearch = ({ query }: { query: string }) => {
       {data?.map((item: IItem) => (
         <li key={item.sickCd}>
           <SearchIcon />
-          {item.sickNm}
+          <HighlightText query={query} text={item.sickNm} />
         </li>
       ))}
     </>
