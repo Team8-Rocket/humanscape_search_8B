@@ -1,3 +1,5 @@
+import { v4 } from 'uuid'
+
 interface Props {
   query: string
   text: string
@@ -14,7 +16,11 @@ const HighlightText = ({ text, query }: Props) => {
 
       return acc
     }
-    acc.push(<strong style={{ fontWeight: 900 }}>{query}</strong>)
+    acc.push(
+      <strong key={v4()} style={{ fontWeight: 900 }}>
+        {query}
+      </strong>
+    )
     acc.push(cur)
 
     return acc
