@@ -9,7 +9,7 @@ import reportWebVitals from './reportWebVitals'
 import Routes from './routes'
 
 import 'styles/index.scss'
-import store from './store/store'
+import { store } from './store'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { refetchOnMount: false } },
