@@ -5,7 +5,21 @@
   width: 100vw;
   height: 100vh;
   padding: 50px 20px;
+  margin-top: 50px;
   background-color: #d1e8fd;
+  transition: background-color 0.3s;
+
+  :root[theme='dark'] & {
+    background-color: #252627;
+
+    .description {
+      color: colors.$WHITE;
+    }
+
+    .searchButton {
+      background-color: #616161;
+    }
+  }
 }
 
 .description {
@@ -50,9 +64,12 @@
 
 .dropdown {
   padding: 24px;
-  margin-top: 10px;
   background-color: #ffffff;
   border-radius: 15px;
+  max-width: 560px;
+  max-height: 540px;
+  overflow: scroll;
+  margin: 15px auto;
 
   span {
     font-size: 13px;
@@ -64,8 +81,22 @@
 
   li {
     display: flex;
-    padding: 10px 0;
+    padding: 12px;
     margin-top: 8px;
+    cursor: pointer;
+  }
+
+  li:hover,
+  li:active,
+  .isFocus {
+    background-color: rgba(0, 0, 0, 6%);
+    border-radius: 10px;
+  }
+
+  a {
+    color: colors.$BLACK;
+    text-decoration: none;
+    outline: none;
   }
 
   svg {
@@ -112,13 +143,5 @@
       bottom: 1.4rem;
       left: 1rem;
     }
-  }
-
-  .dropdown {
-    max-width: 560px;
-    max-height: 480px;
-    margin: auto;
-    margin-top: 10px;
-    overflow: scroll;
   }
 }
