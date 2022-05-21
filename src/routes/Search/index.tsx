@@ -68,7 +68,7 @@ const Search = () => {
           검색
         </button>
       </div>
-      {debouncedSearchText && (
+      {debouncedSearchText.trim().length > 0 && (
         <ul className={styles.dropdown} ref={keyIndexRef}>
           <ErrorBoundary fallback={<span>server error</span>}>
             <Suspense fallback={<span>검색 중...</span>}>
