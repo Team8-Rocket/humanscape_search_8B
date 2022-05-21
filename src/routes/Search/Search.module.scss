@@ -90,6 +90,12 @@
     border-radius: 10px;
   }
 
+  a {
+    color: colors.$BLACK;
+    text-decoration: none;
+    outline: none;
+  }
+
   svg {
     width: 16px;
     margin-right: 5px;

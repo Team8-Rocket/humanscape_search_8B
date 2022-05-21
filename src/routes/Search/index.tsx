@@ -68,13 +68,15 @@ const Search = () => {
           검색
         </button>
       </div>
-      <ul className={styles.dropdown} ref={keyIndexRef}>
-        <ErrorBoundary fallback={<div>server error</div>}>
-          <Suspense fallback={<div>검색 중...</div>}>
-            <SuggestSearch query={debouncedSearchText} />
-          </Suspense>
-        </ErrorBoundary>
-      </ul>
+      {debouncedSearchText && (
+        <ul className={styles.dropdown} ref={keyIndexRef}>
+          <ErrorBoundary fallback={<span>server error</span>}>
+            <Suspense fallback={<span>검색 중...</span>}>
+              <SuggestSearch query={debouncedSearchText} />
+            </Suspense>
+          </ErrorBoundary>
+        </ul>
+      )}
     </div>
   )
 }
