@@ -11,9 +11,10 @@ import styles from '../Search.module.scss'
 import { SearchIcon } from 'assets'
 import HighlightText from './HighlightText'
 
+const SEARCH_URL = 'https://clinicaltrialskorea.com/studies?condition='
+
 const SuggestSearch = ({ query }: { query: string }) => {
   const index = useAppSelector(getItemIndex)
-  const searchUrl = 'https://clinicaltrialskorea.com/studies?condition='
   const pageEndPointRef = useRef<HTMLDivElement>(null)
 
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery(
@@ -49,7 +50,7 @@ const SuggestSearch = ({ query }: { query: string }) => {
         page.items.map((item: IItem, i: number) => (
           <li key={item.sickCd} className={cx({ [styles.isFocus]: index === i })}>
             <SearchIcon />
-            <a href={searchUrl + item.sickNm}>
+            <a href={SEARCH_URL + item.sickNm}>
               <HighlightText query={query} text={item.sickNm} />
             </a>
           </li>

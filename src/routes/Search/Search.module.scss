@@ -6,7 +6,7 @@
   height: 100vh;
   padding: 50px 20px;
   margin-top: 50px;
-  background-color: #d1e8fd;
+  background-color: #cae9ff;
   transition: background-color 0.3s;
 
   :root[theme='dark'] & {
@@ -63,13 +63,13 @@
 }
 
 .dropdown {
+  max-width: 560px;
+  max-height: 23rem;
   padding: 24px;
+  margin: 15px auto;
+  overflow: scroll;
   background-color: #ffffff;
   border-radius: 15px;
-  max-width: 560px;
-  max-height: 540px;
-  overflow: scroll;
-  margin: 15px auto;
 
   span {
     font-size: 13px;
