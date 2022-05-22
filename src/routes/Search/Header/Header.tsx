@@ -20,13 +20,13 @@ const Header = () => {
   }, [theme])
 
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <button className={styles.toggle} type='button' onClick={handleToggleMode}>
         <span />
         <SunIcon className={styles.icons} width={20} />
         <DarkIcon className={styles.icons} width={20} />
       </button>
-    </div>
+    </header>
   )
 }
 
