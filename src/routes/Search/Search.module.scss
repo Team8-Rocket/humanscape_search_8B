@@ -40,6 +40,10 @@
   border-radius: 1.5rem;
   box-shadow: 0 5px 5px #1e20251a;
 
+  .searchForm {
+    width: 100%;
+  }
+
   svg {
     position: absolute;
     right: 1.2rem;
@@ -63,7 +67,6 @@
 }
 
 .dropdown {
-  max-width: 560px;
   max-height: 23rem;
   padding: 24px;
   margin: 15px auto;
@@ -114,13 +117,14 @@
   }
 
   .searchInputWarrper {
-    max-width: 560px;
+    max-width: 572px;
     margin: auto;
     margin-top: 16px;
     border-radius: 42px;
     box-shadow: none;
 
     .searchInput {
+      width: 460px;
       height: 64px;
       border-radius: 42px 0 0 42px;
     }
@@ -143,5 +147,9 @@
       bottom: 1.4rem;
       left: 1rem;
     }
+  }
+
+  .dropdown {
+    max-width: 560px;
   }
 }
