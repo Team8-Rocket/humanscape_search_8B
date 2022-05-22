@@ -6,7 +6,7 @@ interface Props {
 }
 
 const HighlightText = ({ text, query }: Props) => {
-  if (!query.trim()) return <span>text</span>
+  if (!query.trim()) return <p>text</p>
 
   const regex = new RegExp(query, 'gi')
   const splitedText = text.split(regex)
@@ -26,7 +26,7 @@ const HighlightText = ({ text, query }: Props) => {
     return acc
   }, [])
 
-  return <span>{highlightedText}</span>
+  return <p>{highlightedText}</p>
 }
 
 export default HighlightText
