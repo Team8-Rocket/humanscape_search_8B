@@ -8,6 +8,7 @@ import { SearchIcon } from 'assets'
 
 import { getItemIndex, setItemIndex } from 'store/searchIndex'
 import SuggestSearch from './SuggestSearch'
+import Loading from 'components/Loading'
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
@@ -78,7 +79,7 @@ const Search = () => {
       {debouncedSearchText.trim().length > 0 && (
         <ul className={styles.dropdown} ref={keyIndexRef}>
           <ErrorBoundary fallback={<span>server error</span>}>
-            <Suspense fallback={<span>검색 중...</span>}>
+            <Suspense fallback={<Loading />}>
               <SuggestSearch query={debouncedSearchText} />
             </Suspense>
           </ErrorBoundary>
