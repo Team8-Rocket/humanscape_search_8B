@@ -3,7 +3,12 @@
 ## 📜 프로젝트 개요
 API로 불러온 질병명 검색 추천어를 제시
 ## 🔗 프로젝트 배포
-Main API 🔗 https://8b-humanscape.netlify.app/
+
+### ⭐ Main API 🔗 https://8b-humanscape.netlify.app/
+
+- 초성검색 구현버전
+Develop JSON 🔗 https://8b-humanscape-develop.netlify.app/
+
 ## ⚙ 기술 스택
   <img src="https://img.shields.io/badge/TypeScript-v4.4.2-blue"/>
   <img src="https://img.shields.io/badge/React-v18.1.0-blue"/>
