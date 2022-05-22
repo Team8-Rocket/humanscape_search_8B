@@ -1,8 +1,11 @@
 .loading {
   --r1: 154%;
   --r2: 68.5%;
+  position: relative;
+  left: 50%;
   width: 60px;
   height: 60px;
+  /* stylelint-disable-next-line declaration-colon-newline-after */
   background: radial-gradient(var(--r1) var(--r2) at top, #00000000 79.5%, #269af2 80%),
     radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #00000000 80%),
     radial-gradient(var(--r1) var(--r2) at top, #00000000 79.5%, #269af2 80%);
@@ -10,6 +13,7 @@
   background-position: -100% 0%, 0% 0%, 100% 0%;
   background-size: 50.5% 220%;
   border-radius: 50%;
+  transform: translateX(-50%);
   animation: p9 2s infinite linear;
 }
 

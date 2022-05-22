@@ -3,12 +3,12 @@ import { useMount } from 'react-use'
 import { ErrorBoundary } from 'react-error-boundary'
 import { useAppDispatch, useAppSelector, useQueryDebounce } from 'hooks'
 
+import Loading from 'components/Loading'
+import { getItemIndex, setItemIndex } from 'store/searchIndex'
+
 import styles from './Search.module.scss'
 import { SearchIcon } from 'assets'
-
-import { getItemIndex, setItemIndex } from 'store/searchIndex'
 import SuggestSearch from './SuggestSearch'
-import Loading from 'components/Loading'
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')

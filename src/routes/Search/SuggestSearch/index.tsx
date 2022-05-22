@@ -6,6 +6,7 @@ import { useAppSelector, useObserver } from 'hooks'
 import { getDiseaseApi } from 'services/disease'
 import { IItem } from 'types/search'
 import { getItemIndex } from 'store/searchIndex'
+import Loading from 'components/Loading'
 
 import styles from '../Search.module.scss'
 import { SearchIcon } from 'assets'
@@ -49,19 +50,17 @@ const SuggestSearch = ({ query }: { query: string }) => {
       <span>추천 검색어</span>
       {data?.pages.map((page) => {
         prePageNumber = page.currentPage - 1
-        return page.items.map((item: IItem, i: number) => {
-          return (
-            <li key={item.sickCd} className={cx({ [styles.isFocus]: index === i + prePageNumber * 10 })}>
-              <SearchIcon />
-              <a href={SEARCH_URL + item.sickNm}>
-                <HighlightText query={query} text={item.sickNm} />
-              </a>
-            </li>
-          )
-        })
+        return page.items.map((item: IItem, i: number) => (
+          <li key={item.sickCd} className={cx({ [styles.isFocus]: index === i + prePageNumber * 10 })}>
+            <SearchIcon />
+            <a href={SEARCH_URL + item.sickNm}>
+              <HighlightText query={query} text={item.sickNm} />
+            </a>
+          </li>
+        ))
       })}
       {hasNextPage && <div ref={pageEndPointRef} />}
-      {isFetchingNextPage && <p>계속 불러오는 중 입니다.</p>}
+      {isFetchingNextPage && <Loading />}
     </>
   )
 }
