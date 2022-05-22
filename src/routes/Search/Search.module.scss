@@ -66,28 +66,6 @@
   display: none;
 }
 
-.fuzzyDown {
-  height: 70%;
-  padding: 30px;
-  margin-top: 20px;
-  background-color: #ffffff;
-  border-radius: 20px;
-
-  h3 {
-    margin-bottom: 20px;
-    color: colors.$GRAYA;
-  }
-
-  ul {
-    height: 95%;
-    overflow: scroll;
-
-    li {
-      height: 10%;
-    }
-  }
-}
-
 .dropdown {
   max-height: 23rem;
   padding: 24px;
@@ -169,13 +147,6 @@
       bottom: 1.4rem;
       left: 1rem;
     }
-  }
-
-  .fuzzyDown {
-    max-width: 560px;
-    margin: auto;
-    margin-top: 16px;
-    border-radius: 20px;
   }
 
   .dropdown {

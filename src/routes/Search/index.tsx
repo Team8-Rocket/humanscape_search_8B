@@ -17,10 +17,9 @@ const { items } = searchKeyWords.response.body
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
   const [fuzzyArr, setFuzzyArr] = useState([{ sickCd: '0', sickNm: '' }])
+  const inputRef = useRef<HTMLInputElement>(null)
   const debouncedSearchText = useQueryDebounce(searchText)
-
   const keyIndexRef = useRef<HTMLUListElement>(null)
   const index = useAppSelector(getItemIndex)
   const dispatch = useAppDispatch()
@@ -32,7 +31,7 @@ const Search = () => {
   const handleSearchTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value)
     const resultArr = items.item.filter((item) => Fuzzy(e.currentTarget.value).test(item.sickNm))
-    setFuzzyArr(resultArr)
+    if (searchText.trim().length > 0) setFuzzyArr(resultArr)
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -84,16 +83,7 @@ const Search = () => {
           </button>
         </form>
       </div>
-      <section className={styles.fuzzyDown}>
-        <h3>추천 검색어</h3>
-        <ul>
-          {fuzzyArr.map((arr: IItem) => (
-            <li key={arr.sickCd}>
-              <button type='button'>{arr.sickNm}</button>
-            </li>
-          ))}
-        </ul>
-      </section>
+
       {debouncedSearchText.trim().length > 0 && (
         <ul className={styles.dropdown} ref={keyIndexRef}>
           <ErrorBoundary fallback={<span>server error</span>}>
@@ -101,6 +91,15 @@ const Search = () => {
               <SuggestSearch query={debouncedSearchText} />
             </Suspense>
           </ErrorBoundary>
+        </ul>
+      )}
+      {searchText.trim().length > 0 && debouncedSearchText.trim().length === 0 && (
+        <ul className={styles.dropdown} ref={keyIndexRef}>
+          {fuzzyArr.map((arr: IItem) => (
+            <li key={arr.sickCd}>
+              <button type='button'>{arr.sickNm}</button>
+            </li>
+          ))}
         </ul>
       )}
     </div>
