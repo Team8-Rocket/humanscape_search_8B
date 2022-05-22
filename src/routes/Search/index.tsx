@@ -39,7 +39,7 @@ const chPattern = (ch: string) => {
   } else r = ch.replace(reESC, '\\$&')
   return `(${r})`
 }
-const funzzFc = (v: string) => {
+const fuzzyFunc = (v: string) => {
   const pattern = new RegExp(v.split('').map(chPattern).join('.*?'), 'i')
   return pattern
 }
@@ -47,12 +47,12 @@ const { items } = searchKeyWords.response.body
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
-  const [fuzzyArr, setFuzzyArr] = useState([{ sickCd: '0', sickNm: '추천 검색어 없음' }])
+  const [fuzzyArr, setFuzzyArr] = useState([{ sickCd: '0', sickNm: '' }])
   const debouncedSearchText = useQueryDebounce(searchText)
 
   const handleChangeSearchText = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value)
-    const resultArr = items.item.filter((item) => funzzFc(e.currentTarget.value).test(item.sickNm))
+    const resultArr = items.item.filter((item) => fuzzyFunc(e.currentTarget.value).test(item.sickNm))
     setFuzzyArr(resultArr)
   }
 
@@ -75,11 +75,17 @@ const Search = () => {
           검색
         </button>
       </div>
-      <ul className={styles.fuzzyDown}>
-        {fuzzyArr.map((arr: IItem) => (
-          <li key={arr.sickCd}>{arr.sickNm}</li>
-        ))}
-      </ul>
+      <section className={styles.fuzzyDown}>
+        <h3>추천 검색어</h3>
+        <ul>
+          {fuzzyArr.map((arr: IItem) => (
+            <li key={arr.sickCd}>
+              <button type='button'>{arr.sickNm}</button>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       {/* <ul className={styles.dropdown}>
         <SuggestSearch query={debouncedSearchText} />
       </ul> */}
