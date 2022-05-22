@@ -28,6 +28,7 @@
     ]
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",
     "react": "^18.1.0",
@@ -43,7 +44,6 @@
     "web-vitals": "^2.1.0"
   },
   "devDependencies": {
-    "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^14.2.0",
