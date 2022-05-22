@@ -6,13 +6,19 @@ import { useAppDispatch, useAppSelector, useQueryDebounce } from 'hooks'
 import Loading from 'components/Loading'
 import { decrementItemIndex, getItemIndex, incrementItemIndex, resetItemIndex } from 'store/searchIndex'
 
+import searchKeyWords from 'assets/json/searchKeyWords.json'
 import styles from './Search.module.scss'
 import { SearchIcon } from 'assets'
+import { IItem } from 'types/search'
+import Fuzzy from './SuggestSearch/Fuzzy'
 import SuggestSearch from './SuggestSearch'
+
+const { items } = searchKeyWords.response.body
 
 const Search = () => {
   const [searchText, setSearchText] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
+  const [fuzzyArr, setFuzzyArr] = useState([{ sickCd: '0', sickNm: '' }])
   const debouncedSearchText = useQueryDebounce(searchText)
 
   const keyIndexRef = useRef<HTMLUListElement>(null)
@@ -25,6 +31,8 @@ const Search = () => {
 
   const handleSearchTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value)
+    const resultArr = items.item.filter((item) => Fuzzy(e.currentTarget.value).test(item.sickNm))
+    setFuzzyArr(resultArr)
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -76,6 +84,16 @@ const Search = () => {
           </button>
         </form>
       </div>
+      <section className={styles.fuzzyDown}>
+        <h3>추천 검색어</h3>
+        <ul>
+          {fuzzyArr.map((arr: IItem) => (
+            <li key={arr.sickCd}>
+              <button type='button'>{arr.sickNm}</button>
+            </li>
+          ))}
+        </ul>
+      </section>
       {debouncedSearchText.trim().length > 0 && (
         <ul className={styles.dropdown} ref={keyIndexRef}>
           <ErrorBoundary fallback={<span>server error</span>}>
