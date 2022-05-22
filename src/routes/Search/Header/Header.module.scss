@@ -1,0 +1,70 @@
+@use '/src/styles/constants/colors';
+
+:root {
+  --header-height: 50px;
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  justify-content: flex-end;
+  height: var(--header-height);
+  background-color: colors.$WHITE;
+  transition: background-color 0.3s;
+
+  :root[theme='dark'] & {
+    background-color: #202020;
+
+    .toggle {
+      background-color: colors.$WHITE;
+
+      span {
+        background-color: colors.$TOGGLE;
+        transform: translateX(42px);
+      }
+
+      .icons {
+        filter: invert(10%) sepia(0%) saturate(3813%) hue-rotate(315deg) brightness(94%) contrast(75%);
+      }
+    }
+  }
+
+  .toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    margin: 5px 0;
+    margin-right: 2em;
+    color: colors.$WHITE;
+    cursor: pointer;
+    background-color: colors.$TOGGLE;
+    border-radius: 30px;
+
+    span {
+      position: absolute;
+      left: 0;
+      z-index: 100;
+      width: 25px;
+      height: 25px;
+      background-color: colors.$WHITE;
+      border-radius: 50%;
+      transition: all 0.5s;
+      transform: translateX(13px);
+    }
+
+    .icons {
+      filter: invert(100%) sepia(100%) saturate(30%) hue-rotate(62deg) brightness(108%) contrast(106%);
+    }
+  }
+}
+
+.icons + .icons {
+  margin-left: 13px;
+}
