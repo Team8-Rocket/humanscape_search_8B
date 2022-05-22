@@ -1,5 +1,5 @@
 import store from 'store'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 import type { RootState } from '.'
 
@@ -15,16 +15,19 @@ const searchSlice = createSlice({
   name: 'search',
   initialState: INITIAL_STATE,
   reducers: {
-    setItemIndex: (state: SearchIndexState, action: PayloadAction<number>) => {
-      state.itemIndex = action.payload
+    decrementItemIndex: (state) => {
+      state.itemIndex -= 1
+    },
+    incrementItemIndex: (state) => {
+      state.itemIndex += 1
+    },
+    resetItemIndex: (state) => {
+      state.itemIndex = -1
     },
   },
 })
 
-export const { setItemIndex } = searchSlice.actions
+export const { decrementItemIndex, incrementItemIndex, resetItemIndex } = searchSlice.actions
+export const getItemIndex = (state: RootState): number => state.searchIndex.itemIndex
 
 export default searchSlice.reducer
-
-// Selector =====================
-
-export const getItemIndex = (state: RootState): number => state.searchIndex.itemIndex

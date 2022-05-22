@@ -1,8 +1,8 @@
-import { memo, useRef } from 'react'
+import { memo } from 'react'
 import { useInfiniteQuery } from 'react-query'
 import cx from 'classnames'
 
-import { useAppSelector, useObserver } from 'hooks'
+import { useAppSelector } from 'hooks'
 import { getDiseaseApi } from 'services/disease'
 import { IItem } from 'types/search'
 import { getItemIndex } from 'store/searchIndex'
@@ -16,7 +16,6 @@ const SEARCH_URL = 'https://clinicaltrialskorea.com/studies?condition='
 
 const SuggestSearch = ({ query }: { query: string }) => {
   const index = useAppSelector(getItemIndex)
-  const pageEndPointRef = useRef<HTMLDivElement>(null)
   let prePageNumber: number = 0
 
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery(
@@ -37,13 +36,6 @@ const SuggestSearch = ({ query }: { query: string }) => {
     }
   )
 
-  const onIntersect = ([entry]: any) => entry.isIntersecting && fetchNextPage()
-  useObserver({
-    target: pageEndPointRef,
-    onIntersect,
-    hasNextPage,
-  })
-
   if (!isLoading && data!.pages[0].items.length === 0) return <span>{query} 검색 결과가 없습니다.</span>
   return (
     <>
@@ -59,7 +51,11 @@ const SuggestSearch = ({ query }: { query: string }) => {
           </li>
         ))
       })}
-      {hasNextPage && <div ref={pageEndPointRef} />}
+      {hasNextPage && (
+        <button type='button' onClick={() => fetchNextPage()}>
+          더 불러오기
+        </button>
+      )}
       {isFetchingNextPage && <Loading />}
     </>
   )

@@ -1,5 +1,9 @@
 @use '/src/styles/constants/colors';
 
+:root {
+  --header-height: 50px;
+}
+
 .header {
   position: absolute;
   top: 0;
@@ -9,7 +13,7 @@
   align-content: center;
   justify-content: center;
   justify-content: flex-end;
-  height: 50px;
+  height: var(--header-height);
   background-color: colors.$WHITE;
   transition: background-color 0.3s;
 

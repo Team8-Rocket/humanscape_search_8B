@@ -7,7 +7,6 @@ export { useState, useEffect, useLayoutEffect, useCallback, useContext, useMemo,
 export { useAppDispatch } from './useAppDispatch'
 export { useAppSelector } from './useAppSelector'
 export { useQueryDebounce } from './useQueryDebounce'
-export { useObserver } from './useObserver'
 
 export function useMounted(): boolean {
   const [mounted, setMounted] = useState(false)

@@ -4,7 +4,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { useAppDispatch, useAppSelector, useQueryDebounce } from 'hooks'
 
 import Loading from 'components/Loading'
-import { getItemIndex, setItemIndex } from 'store/searchIndex'
+import { decrementItemIndex, getItemIndex, incrementItemIndex, resetItemIndex } from 'store/searchIndex'
 
 import styles from './Search.module.scss'
 import { SearchIcon } from 'assets'
@@ -32,17 +32,17 @@ const Search = () => {
     const isCorrectKey = e.key === 'ArrowDown' || 'ArrowUp' || 'Escape'
     if (e.nativeEvent.isComposing) return
     if (!isCorrectKey) return
-    if (!debouncedSearchText || e.key === 'Escape') dispatch(setItemIndex(-1))
+    if (!debouncedSearchText || e.key === 'Escape') dispatch(resetItemIndex())
 
     if (e.key === 'ArrowDown') {
-      dispatch(setItemIndex(index + 1))
+      dispatch(incrementItemIndex())
       currentValue = keyIndexRef.current?.childNodes[index + 2]?.textContent
     }
 
     if (e.key === 'ArrowUp') {
-      dispatch(setItemIndex(index - 1))
+      dispatch(decrementItemIndex())
       currentValue = keyIndexRef.current?.childNodes[index]?.textContent
-      if (index < 0) dispatch(setItemIndex(-1))
+      if (index < 0) dispatch(resetItemIndex())
     }
 
     if (currentValue === undefined || currentValue === null) currentValue = searchText
